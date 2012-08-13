@@ -1058,6 +1058,15 @@ class LinuxBridgeInterfaceDriver(LinuxNetInterfaceDriver):
 
 # plugs interfaces using Open vSwitch
 class LinuxOVSInterfaceDriver(LinuxNetInterfaceDriver):
+    def __init__(self):
+        super(LinuxOVSInterfaceDriver, self).__init__()
+        if binary_name == 'nova-network':
+            for tables in [iptables_manager.ipv4,
+                           iptables_manager.ipv6]:
+                tables['filter'].add_rule(
+                    'FORWARD',
+                    '--in-interface gw-+ --out-interface gw-+ -j DROP')
+            iptables_manager.apply()
 
     def plug(self, network, mac_address, gateway=True):
         dev = self.get_dev(network)
