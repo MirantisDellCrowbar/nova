@@ -1081,6 +1081,8 @@ class LinuxOVSInterfaceDriver(LinuxNetInterfaceDriver):
                                 "external-ids:iface-status=active",
                         '--', 'set', 'Interface', dev,
                                 "external-ids:attached-mac=%s" % mac_address,
+                        '--', 'set', 'Port', dev,
+                                "tag=%s" % network['vlan'],
                         run_as_root=True)
             _execute('ip', 'link', 'set', dev, "address", mac_address,
                         run_as_root=True)

@@ -137,6 +137,8 @@ class LibvirtOpenVswitchDriver(vif.VIFDriver):
                 "external-ids:attached-mac=%s" % mapping['mac'],
                 '--', 'set', 'Interface', dev,
                 "external-ids:vm-uuid=%s" % instance['uuid'],
+                '--', 'set', 'Port', dev,
+                "tag=%s" % network['vlan'],
                 run_as_root=True)
 
         result = {
